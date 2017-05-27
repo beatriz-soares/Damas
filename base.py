@@ -1,17 +1,16 @@
+# coding:utf-8
 import pygame
 import random
 from funcoes import *
 
 pygame.init()
 
-screen_width = 700
-screen_height = 400
+screen_width = 488
+screen_height = 488
 screen = pygame.display.set_mode([screen_width, screen_height])
 
 block_list, all_sprites_list = desenha_tela()
 
-# player = Block(RED, 20, 15)
-# all_sprites_list.add(player)
 
 done = False
 
@@ -27,14 +26,11 @@ while not done:
     screen.fill(WHITE)
     pos = pygame.mouse.get_pos()
 
-    # player.rect.x = pos[0]
-    # player.rect.y = pos[1]
-
-    """blocks_hit_list = pygame.sprite.spritecollide(player, block_list, False)
-
-    for block in blocks_hit_list:
-        score += 1
-        print(score)"""
+    # blocks_hit_list = pygame.sprite.spritecollide(player, block_list, False)
+    #
+    # for block in blocks_hit_list:
+    #     score += 1
+    #     print(score)
 
     all_sprites_list.draw(screen)
 
