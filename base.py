@@ -10,8 +10,8 @@ screen = pygame.display.set_mode([screen_width, screen_height])
 
 block_list, all_sprites_list = desenha_tela()
 
-player = Block(RED, 20, 15)
-all_sprites_list.add(player)
+# player = Block(RED, 20, 15)
+# all_sprites_list.add(player)
 
 done = False
 
@@ -27,8 +27,8 @@ while not done:
     screen.fill(WHITE)
     pos = pygame.mouse.get_pos()
 
-    player.rect.x = pos[0]
-    player.rect.y = pos[1]
+    # player.rect.x = pos[0]
+    # player.rect.y = pos[1]
 
     """blocks_hit_list = pygame.sprite.spritecollide(player, block_list, False)
 
