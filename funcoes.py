@@ -17,8 +17,8 @@ P_BRANCA = 1
 # SPRITES
 S_CASA_BRANCA = "sprites/casa_branca.jpg"
 S_CASA_PRETA = "sprites/casa_preta.jpg"
-S_ROSA = "sprites/pedra_rosa.png"
-S_VERDE = "sprites/pedra_verde.png"
+S_PEDRA_ROSA = "sprites/pedra_rosa.png"
+S_PEDRA_VERDE = "sprites/pedra_verde.png"
 
 # ENVIRONMENT
 screen_width = 488
@@ -100,7 +100,7 @@ def desenha_pedras():
 
     all_pedras_list = pygame.sprite.Group()
 
-    cor = S_VERDE
+    cor = S_PEDRA_VERDE
     cores_alternadas = cycle([S_CASA_BRANCA,S_CASA_PRETA])
 
     for linha in range(3):
@@ -114,7 +114,7 @@ def desenha_pedras():
                 all_pedras_list.add(pedra)
         cores_alternadas.next()
 
-    cor = S_ROSA
+    cor = S_PEDRA_ROSA
 
     for i in range(5,8):
         for j in range(8):
