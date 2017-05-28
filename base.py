@@ -11,7 +11,7 @@ screen = pygame.display.set_mode([screen_width, screen_height])
 
 block_list, all_sprites_list = desenha_tela()
 
-
+pedra_list, all_pedras_list = desenha_pedras()
 done = False
 
 clock = pygame.time.Clock()
@@ -32,11 +32,10 @@ while not done:
 
     screen.fill(WHITE)
     pos = pygame.mouse.get_pos()
-
     all_sprites_list.draw(screen)
-
+    all_pedras_list.draw(screen)
     pygame.display.flip()
 
-    clock.tick(60)
+    clock.tick(30)
 
 pygame.quit()

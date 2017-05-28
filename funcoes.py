@@ -15,13 +15,19 @@ P_BRANCA = 1
 # SPRITES
 S_BRANCO = "sprites/branco.jpg"
 S_PRETO = "sprites/preto.jpg"
+S_ROSA = "sprites/rosa.png"
 
 # ENVIRONMENT
 posx_tabuleiro = 20
 posy_tabuleiro = 20
 
+posx_pedra = 22
+posy_pedra = 20
+
 tile_x_tam = 56
 tile_y_tam = 56
+
+dim_pedra = 50
 
 """CLASSES"""
 class Bloco(pygame.sprite.Sprite):
@@ -79,3 +85,29 @@ def desenha_tela():
         cores_alternadas.next()
 
     return[lista_casas, all_sprites_list]
+
+def desenha_pedras():
+    lista_pedras = pygame.sprite.Group()
+
+    all_pedras_list = pygame.sprite.Group()
+
+    cor = S_ROSA
+    cores_alternadas = cycle([S_BRANCO,S_PRETO])
+    pos_x = posx_pedra
+    pos_y = posy_pedra
+
+    for i in range(3):
+        for j in range(8):
+            casa = cores_alternadas.next()
+            pedra = Pedra((pos_x,pos_y), casa, cor)
+
+            pos_x+= tile_x_tam
+            if casa == S_PRETO:
+                lista_pedras.add(pedra)
+                all_pedras_list.add(pedra)
+
+        pos_x = posx_tabuleiro
+        pos_y += tile_x_tam
+        cores_alternadas.next()
+
+    return[lista_pedras, all_pedras_list]
