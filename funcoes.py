@@ -7,6 +7,8 @@ from itertools import cycle
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
 RED   = (255,   0,   0)
+AZUL  = (150, 206, 180)
+BEGE  = (255, 238, 173)
 
 # TIPOS DE PEÇA (COR DA PEÇA OU TIME)
 P_PRETA = 0
@@ -16,6 +18,7 @@ P_BRANCA = 1
 S_BRANCO = "sprites/branco.jpg"
 S_PRETO = "sprites/preto.jpg"
 S_ROSA = "sprites/rosa.png"
+S_VERDE = "sprites/verde.png"
 
 # ENVIRONMENT
 posx_tabuleiro = 20
@@ -24,12 +27,21 @@ posy_tabuleiro = 20
 posx_pedra = 22
 posy_pedra = 20
 
-tile_x_tam = 56
-tile_y_tam = 56
+tamanho_casas = (56,56)
 
 dim_pedra = 50
 
 """CLASSES"""
+class Cor(pygame.sprite.Sprite):
+
+    def __init__(self, cor, tamanho, pos):
+        super(Cor, self).__init__()
+        self.image = pygame.Surface([tamanho[1], tamanho[0]])
+        self.image.fill(cor)
+        self.rect = self.image.get_rect()
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
+
 class Bloco(pygame.sprite.Sprite):
 
     def __init__(self, sprite, clicavel=False):
@@ -43,14 +55,14 @@ class Botao(Bloco):
     def __init__(self, sprite):
         super(Botao, self).__init__(sprite, clicavel=True)
 
-class Casa(Botao):
-    def __init__(self, id, pos, sprite):
-        super(Casa, self).__init__(sprite)
-        self.id = id
-        self.preenchida = False
-        self.rect.x = pos[0]
-        self.rect.y = pos[1]
-        self.pedra = None
+# class Casa(Botao):
+#     def __init__(self, id, pos, sprite):
+#         super(Casa, self).__init__(sprite)
+#         self.id = id
+#         self.preenchida = False
+#         self.rect.x = pos[0]
+#         self.rect.y = pos[1]
+#         self.pedra = None
 
 class Pedra(Botao):
     def __init__(self, pos, cor, sprite):
@@ -66,22 +78,23 @@ def desenha_tela():
 
     all_sprites_list = pygame.sprite.Group()
 
-    cores_alternadas = cycle([S_BRANCO,S_PRETO])
+    cores_alternadas = cycle([BEGE, AZUL])
 
-    pos_x = posx_tabuleiro
-    pos_y = posy_tabuleiro
+    pos = [posx_tabuleiro, posy_tabuleiro]
 
     for i in range(8):
         for j in range(8):
-            casa = Casa(i+j, (pos_x,pos_y),cores_alternadas.next())
 
-            pos_x+= tile_x_tam
+            cor = Cor(cores_alternadas.next(), tamanho_casas, pos)
+            # cor = Casa(i+j, (pos_x,pos_y),cores_alternadas.next())
 
-            lista_casas.add(casa)
-            all_sprites_list.add(casa)
+            pos[0]+= tamanho_casas[0]
 
-        pos_x = posx_tabuleiro
-        pos_y += tile_y_tam
+            lista_casas.add(cor)
+            all_sprites_list.add(cor)
+
+        pos[0] = posx_tabuleiro
+        pos[1]+= tamanho_casas[1]
         cores_alternadas.next()
 
     return[lista_casas, all_sprites_list]
@@ -91,23 +104,23 @@ def desenha_pedras():
 
     all_pedras_list = pygame.sprite.Group()
 
-    cor = S_ROSA
+    cor = S_VERDE
     cores_alternadas = cycle([S_BRANCO,S_PRETO])
-    pos_x = posx_pedra
-    pos_y = posy_pedra
+
+    pos = [posx_pedra, posy_pedra]
 
     for i in range(3):
         for j in range(8):
             casa = cores_alternadas.next()
-            pedra = Pedra((pos_x,pos_y), casa, cor)
+            pedra = Pedra(pos, casa, cor)
 
-            pos_x+= tile_x_tam
+            pos[0]+= tamanho_casas[0]
             if casa == S_PRETO:
                 lista_pedras.add(pedra)
                 all_pedras_list.add(pedra)
 
-        pos_x = posx_tabuleiro
-        pos_y += tile_x_tam
+        pos[0] = posx_tabuleiro
+        pos[1] += tamanho_casas[1]
         cores_alternadas.next()
 
     return[lista_pedras, all_pedras_list]
