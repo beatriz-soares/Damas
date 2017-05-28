@@ -15,10 +15,10 @@ P_PRETA = 0
 P_BRANCA = 1
 
 # SPRITES
-S_CASA_BRANCA = "sprites/branco.jpg"
-S_CASA_PRETA = "sprites/preto.jpg"
-S_ROSA = "sprites/rosa.png"
-S_VERDE = "sprites/verde.png"
+S_CASA_BRANCA = "sprites/casa_branca.jpg"
+S_CASA_PRETA = "sprites/casa_preta.jpg"
+S_ROSA = "sprites/pedra_rosa.png"
+S_VERDE = "sprites/pedra_verde.png"
 
 # ENVIRONMENT
 screen_width = 488
@@ -91,8 +91,6 @@ def desenha_tela():
             lista_casas.add(cor)
             all_sprites_list.add(cor)
 
-        # pos[0] = posx_tabuleiro
-        # pos[1]+= tamanho_casas[1]
         cores_alternadas.next()
 
     return[lista_casas, all_sprites_list]
@@ -116,7 +114,6 @@ def desenha_pedras():
                 all_pedras_list.add(pedra)
         cores_alternadas.next()
 
-
     cor = S_ROSA
 
     for i in range(5,8):
@@ -127,7 +124,7 @@ def desenha_pedras():
             if casa == S_CASA_PRETA:
                 lista_pedras.add(pedra)
                 all_pedras_list.add(pedra)
-    #
+
         cores_alternadas.next()
 
     return[lista_pedras, all_pedras_list]
