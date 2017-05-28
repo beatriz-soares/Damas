@@ -5,8 +5,6 @@ from funcoes import *
 
 pygame.init()
 
-screen_width = 488
-screen_height = 488
 screen = pygame.display.set_mode([screen_width, screen_height])
 
 block_list, all_sprites_list = desenha_tela()
@@ -26,8 +24,7 @@ while not done:
             done = True
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            clicked_sprites = [s.id for s in block_list if s.rect.collidepoint(pos)]
-            print clicked_sprites
+            print matriz_pos_mouse(pos)
 
 
     screen.fill(WHITE)

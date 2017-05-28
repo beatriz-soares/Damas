@@ -21,6 +21,9 @@ S_ROSA = "sprites/rosa.png"
 S_VERDE = "sprites/verde.png"
 
 # ENVIRONMENT
+screen_width = 488
+screen_height = 488
+
 posx_tabuleiro = 20
 posy_tabuleiro = 20
 
