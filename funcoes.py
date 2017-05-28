@@ -15,8 +15,8 @@ P_PRETA = 0
 P_BRANCA = 1
 
 # SPRITES
-S_BRANCO = "sprites/branco.jpg"
-S_PRETO = "sprites/preto.jpg"
+S_CASA_BRANCA = "sprites/branco.jpg"
+S_CASA_PRETA = "sprites/preto.jpg"
 S_ROSA = "sprites/rosa.png"
 S_VERDE = "sprites/verde.png"
 
@@ -83,21 +83,16 @@ def desenha_tela():
 
     cores_alternadas = cycle([BEGE, AZUL])
 
-    pos = [posx_tabuleiro, posy_tabuleiro]
-
     for i in range(8):
         for j in range(8):
 
-            cor = Cor(cores_alternadas.next(), tamanho_casas, pos)
-            # cor = Casa(i+j, (pos_x,pos_y),cores_alternadas.next())
-
-            pos[0]+= tamanho_casas[0]
+            cor = Cor(cores_alternadas.next(), tamanho_casas, pos(i,j))
 
             lista_casas.add(cor)
             all_sprites_list.add(cor)
 
-        pos[0] = posx_tabuleiro
-        pos[1]+= tamanho_casas[1]
+        # pos[0] = posx_tabuleiro
+        # pos[1]+= tamanho_casas[1]
         cores_alternadas.next()
 
     return[lista_casas, all_sprites_list]
@@ -108,22 +103,37 @@ def desenha_pedras():
     all_pedras_list = pygame.sprite.Group()
 
     cor = S_VERDE
-    cores_alternadas = cycle([S_BRANCO,S_PRETO])
+    cores_alternadas = cycle([S_CASA_BRANCA,S_CASA_PRETA])
 
-    pos = [posx_pedra, posy_pedra]
-
-    for i in range(3):
-        for j in range(8):
+    for linha in range(3):
+        for coluna in range(8):
             casa = cores_alternadas.next()
-            pedra = Pedra(pos, casa, cor)
 
-            pos[0]+= tamanho_casas[0]
-            if casa == S_PRETO:
+            if casa == S_CASA_PRETA:
+                print '%d %d    %s' % (linha,coluna,pos(linha,coluna))
+                pedra = Pedra(pos(linha,coluna), P_PRETA, cor)
                 lista_pedras.add(pedra)
                 all_pedras_list.add(pedra)
+        cores_alternadas.next()
 
-        pos[0] = posx_tabuleiro
-        pos[1] += tamanho_casas[1]
+
+    cor = S_ROSA
+
+    for i in range(5,8):
+        for j in range(8):
+            casa = cores_alternadas.next()
+            pedra = Pedra(pos(i,j), casa, cor)
+
+            if casa == S_CASA_PRETA:
+                lista_pedras.add(pedra)
+                all_pedras_list.add(pedra)
+    #
         cores_alternadas.next()
 
     return[lista_pedras, all_pedras_list]
+
+def pos(i,j):
+    coluna = posx_tabuleiro + tamanho_casas[0] * i
+    linha = posx_tabuleiro + tamanho_casas[1] * j
+
+    return (linha,coluna)
