@@ -3,14 +3,18 @@ import pygame
 from itertools import cycle
 
 """CONSTANTES"""
-# CORES
+# CORES FLAT
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
 RED   = (255,   0,   0)
 
+# TIPOS DE PEÇA (COR DA PEÇA OU TIME)
+P_PRETA = 0
+P_BRANCA = 1
+
 # SPRITES
-BRANCO = "sprites/branco.jpg"
-PRETO = "sprites/preto.jpg"
+S_BRANCO = "sprites/branco.jpg"
+S_PRETO = "sprites/preto.jpg"
 
 # ENVIRONMENT
 posx_tabuleiro = 20
@@ -20,38 +24,58 @@ tile_x_tam = 56
 tile_y_tam = 56
 
 """CLASSES"""
-class Block(pygame.sprite.Sprite):
+class Bloco(pygame.sprite.Sprite):
 
-    def __init__(self, sprite):
-        super(Block, self).__init__()
+    def __init__(self, sprite, clicavel=False):
+        super(Bloco, self).__init__()
         self.image = pygame.image.load(sprite)
         self.sprite = sprite
+        self.clicavel = clicavel
         self.rect = self.image.get_rect()
+
+class Botao(Bloco):
+    def __init__(self, sprite):
+        super(Botao, self).__init__(sprite, clicavel=True)
+
+class Casa(Botao):
+    def __init__(self, id, pos, sprite):
+        super(Casa, self).__init__(sprite)
+        self.id = id
+        self.preenchida = False
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
+        self.pedra = None
+
+class Pedra(Botao):
+    def __init__(self, pos, cor, sprite):
+        super(Pedra, self).__init__(sprite)
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
+        self.cor = cor
+
 
 """FUNÇÕES"""
 def desenha_tela():
-    block_list = pygame.sprite.Group()
+    lista_casas = pygame.sprite.Group()
 
     all_sprites_list = pygame.sprite.Group()
 
-    cores_alternadas = cycle([BRANCO,PRETO])
+    cores_alternadas = cycle([S_BRANCO,S_PRETO])
 
     pos_x = posx_tabuleiro
     pos_y = posy_tabuleiro
 
     for i in range(8):
         for j in range(8):
-            block = Block(cores_alternadas.next())
+            casa = Casa(i+j, (pos_x,pos_y),cores_alternadas.next())
 
-            block.rect.x = pos_x
-            block.rect.y = pos_y
             pos_x+= tile_x_tam
 
-            block_list.add(block)
-            all_sprites_list.add(block)
+            lista_casas.add(casa)
+            all_sprites_list.add(casa)
 
         pos_x = posx_tabuleiro
         pos_y += tile_y_tam
         cores_alternadas.next()
 
-    return[block_list, all_sprites_list]
+    return[lista_casas, all_sprites_list]
