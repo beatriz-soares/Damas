@@ -29,13 +29,14 @@ while not done:
 
             casas_clicadas = [s for s in lista_casas if s.rect.collidepoint(pos)]
             if casas_clicadas:
-                if not casa_selecionada:
+                if not casa_selecionada and casas_clicadas[0].pedra:
                     casa_selecionada = casas_clicadas[0]
                 else:
-                    pedra = casa_selecionada.pedra
-                    casa_selecionada.pedra = None
-                    casas_clicadas[0].pedra = pedra
-                    pedra.rect = casas_clicadas[0].rect
+                    if casa_selecionada and casa_selecionada.pedra:
+                        pedra = casa_selecionada.pedra
+                        casa_selecionada = None
+                        casas_clicadas[0].pedra = pedra
+                        pedra.rect = casas_clicadas[0].rect
             print casa_selecionada
 
 
