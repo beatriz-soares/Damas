@@ -113,10 +113,10 @@ def gerar_pedras(lista_casas):
                 casas_encontradas = pygame.sprite.spritecollide(pedra, lista_casas, False)
                 lista_pedras.add(pedra)
                 casas_encontradas[0].pedra = pedra
-                
+
         cores_alternadas.next()
 
-    return lista_pedras, lista_casas
+    return lista_pedras
 
 def pos_tabuleiro(i,j):
     coluna = posx_tabuleiro + tamanho_casas[0] * i

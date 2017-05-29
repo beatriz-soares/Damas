@@ -7,7 +7,7 @@ pygame.init()
 
 screen = pygame.display.set_mode([screen_width, screen_height])
 lista_casas = gerar_casas()
-lista_pedras, lista_casas = gerar_pedras(lista_casas)
+lista_pedras = gerar_pedras(lista_casas)
 
 lista_completa = pygame.sprite.Group()
 
