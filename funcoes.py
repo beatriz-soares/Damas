@@ -11,39 +11,35 @@ AZUL  = (150, 206, 180)
 BEGE  = (255, 238, 173)
 
 # TIPOS DE PEÇA (COR DA PEÇA OU TIME)
-P_PRETA = 0
-P_BRANCA = 1
+S_PEDRA_ROSA = "sprites/pedra_rosa.png"
+S_PEDRA_VERDE = "sprites/pedra_verde.png"
 
 # SPRITES
 S_CASA_BRANCA = "sprites/casa_branca.jpg"
 S_CASA_PRETA = "sprites/casa_preta.jpg"
-S_PEDRA_ROSA = "sprites/pedra_rosa.png"
-S_PEDRA_VERDE = "sprites/pedra_verde.png"
 
 # ENVIRONMENT
-screen_width = 488
-screen_height = 488
+screen_width = 520
+screen_height = 520
 
 posx_tabuleiro = 20
 posy_tabuleiro = 20
 
-posx_pedra = 22
-posy_pedra = 20
-
-tamanho_casas = (56,56)
-
-dim_pedra = 50
+tamanho_casas = (60,60)
 
 """CLASSES"""
 class Cor(pygame.sprite.Sprite):
 
     def __init__(self, cor, tamanho, pos):
         super(Cor, self).__init__()
-        self.image = pygame.Surface([tamanho[1], tamanho[0]])
+        self.image = pygame.Surface([tamanho[0], tamanho[1]])
         self.image.fill(cor)
+
+        self.pos = pos
         self.rect = self.image.get_rect()
-        self.rect.x = pos[0]
-        self.rect.y = pos[1]
+        em_pixels = pos_tabuleiro(pos[0],pos[1])
+        self.rect.x = em_pixels[0]
+        self.rect.y = em_pixels[1]
 
 class Bloco(pygame.sprite.Sprite):
 
@@ -58,78 +54,71 @@ class Botao(Bloco):
     def __init__(self, sprite):
         super(Botao, self).__init__(sprite, clicavel=True)
 
-# class Casa(Botao):
-#     def __init__(self, id, pos, sprite):
-#         super(Casa, self).__init__(sprite)
-#         self.id = id
-#         self.preenchida = False
-#         self.rect.x = pos[0]
-#         self.rect.y = pos[1]
-#         self.pedra = None
+class Casa(Cor):
+    def __init__(self, cor, tamanho, pos):
+        super(Casa, self).__init__(cor, tamanho, pos)
+        self.pedra = None
 
 class Pedra(Botao):
-    def __init__(self, pos, cor, sprite):
+    def __init__(self, pos, sprite):
         super(Pedra, self).__init__(sprite)
-        self.rect.x = pos[0]
-        self.rect.y = pos[1]
-        self.cor = cor
+        self.pos = pos
+        em_pixels = pos_tabuleiro(pos[0],pos[1])
+        self.rect.x = em_pixels[0]
+        self.rect.y = em_pixels[1]
+        self.sprite = sprite
 
 
 """FUNÇÕES"""
-def desenha_tela():
+def gerar_casas():
     lista_casas = pygame.sprite.Group()
-
-    all_sprites_list = pygame.sprite.Group()
 
     cores_alternadas = cycle([BEGE, AZUL])
 
     for i in range(8):
         for j in range(8):
 
-            cor = Cor(cores_alternadas.next(), tamanho_casas, pos(i,j))
+            casa = Casa(cores_alternadas.next(), tamanho_casas, [i,j])
 
-            lista_casas.add(cor)
-            all_sprites_list.add(cor)
+            lista_casas.add(casa)
 
         cores_alternadas.next()
 
-    return[lista_casas, all_sprites_list]
+    return lista_casas
 
-def desenha_pedras():
+def gerar_pedras(lista_casas):
     lista_pedras = pygame.sprite.Group()
 
-    all_pedras_list = pygame.sprite.Group()
-
-    cor = S_PEDRA_VERDE
     cores_alternadas = cycle([S_CASA_BRANCA,S_CASA_PRETA])
 
-    for linha in range(3):
-        for coluna in range(8):
+    for i in range(3):
+        for j in range(8):
             casa = cores_alternadas.next()
 
             if casa == S_CASA_PRETA:
-                print '%d %d    %s' % (linha,coluna,pos(linha,coluna))
-                pedra = Pedra(pos(linha,coluna), P_PRETA, cor)
+                pedra = Pedra([i,j], S_PEDRA_ROSA)
+                casas_encontradas = pygame.sprite.spritecollide(pedra, lista_casas, False)
                 lista_pedras.add(pedra)
-                all_pedras_list.add(pedra)
-        cores_alternadas.next()
+                casas_encontradas[0].pedra = pedra
 
-    cor = S_PEDRA_ROSA
+
+        cores_alternadas.next()
 
     for i in range(5,8):
         for j in range(8):
             casa = cores_alternadas.next()
-            pedra = Pedra(pos(i,j), casa, cor)
 
             if casa == S_CASA_PRETA:
+                pedra = Pedra([i,j], S_PEDRA_VERDE)
+                casas_encontradas = pygame.sprite.spritecollide(pedra, lista_casas, False)
                 lista_pedras.add(pedra)
-                all_pedras_list.add(pedra)
-
+                casas_encontradas[0].pedra = pedra
+                
         cores_alternadas.next()
 
-    return[lista_pedras, all_pedras_list]
+    return lista_pedras, lista_casas
 
-def pos(i,j):
+def pos_tabuleiro(i,j):
     coluna = posx_tabuleiro + tamanho_casas[0] * i
     linha = posx_tabuleiro + tamanho_casas[1] * j
 

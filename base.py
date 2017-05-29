@@ -6,10 +6,11 @@ from funcoes import *
 pygame.init()
 
 screen = pygame.display.set_mode([screen_width, screen_height])
+lista_casas = gerar_casas()
+lista_pedras, lista_casas = gerar_pedras(lista_casas)
 
-block_list, all_sprites_list = desenha_tela()
+lista_completa = pygame.sprite.Group()
 
-pedra_list, all_pedras_list = desenha_pedras()
 done = False
 
 clock = pygame.time.Clock()
@@ -24,15 +25,16 @@ while not done:
             done = True
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
-            print matriz_pos_mouse(pos)
+            clicked_sprites = [s.pedra for s in lista_casas if s.rect.collidepoint(pos)]
+            print clicked_sprites
 
 
     screen.fill(WHITE)
-    pos = pygame.mouse.get_pos()
-    all_sprites_list.draw(screen)
-    all_pedras_list.draw(screen)
-    pygame.display.flip()
 
+    lista_casas.draw(screen)
+    lista_pedras.draw(screen)
+
+    pygame.display.flip()
     clock.tick(30)
 
 pygame.quit()
