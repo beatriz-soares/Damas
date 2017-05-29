@@ -26,14 +26,19 @@ while not done:
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
 
+            pedras_clicadas = [s for s in lista_pedras if s.rect.collidepoint(pos)]
 
+            print casa_selecionada,' > ',
             casas_clicadas = [s for s in lista_casas if s.rect.collidepoint(pos)]
             if casas_clicadas:
-                if not casa_selecionada and casas_clicadas[0].pedra:
-                    casa_selecionada = casas_clicadas[0]
+                if not casa_selecionada:
+                    if casas_clicadas[0].pedra:
+                        print casas_clicadas
+                        casa_selecionada = casas_clicadas[0]
                 else:
-                    if casa_selecionada and casa_selecionada.pedra:
+                    if casa_selecionada and casa_selecionada.ocupavel:
                         pedra = casa_selecionada.pedra
+                        casa_selecionada.pedra = None
                         casa_selecionada = None
                         casas_clicadas[0].pedra = pedra
                         pedra.rect = casas_clicadas[0].rect

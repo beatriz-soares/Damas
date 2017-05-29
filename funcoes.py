@@ -52,9 +52,15 @@ class Botao(Bloco):
         super(Botao, self).__init__(sprite, clicavel=True)
 
 class Casa(Cor):
-    def __init__(self, cor, tamanho, pos):
+    def __init__(self, cor, tamanho, pos, ocupavel=False):
         super(Casa, self).__init__(cor, tamanho, pos)
         self.pedra = None
+        self.ocupavel = ocupavel
+        self.cor = cor
+        self.id = None
+
+    def __repr__(self):
+        return 'casa %d' % self.id
 
 class Pedra(Botao):
     def __init__(self, pos, sprite):
@@ -75,7 +81,10 @@ def gerar_casas():
     for i in range(8):
         for j in range(8):
             casa = Casa(cores_alternadas.next(), tamanho_casas, [i,j])
+            if casa.cor == AZUL:
+                casa.ocupavel = True
             lista_casas.add(casa)
+            casa.id = len(lista_casas)
 
         cores_alternadas.next()
 
