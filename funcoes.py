@@ -4,9 +4,7 @@ from itertools import cycle
 
 """CONSTANTES"""
 # CORES FLAT
-BLACK = (  0,   0,   0)
-WHITE = (255, 255, 255)
-RED   = (255,   0,   0)
+BRANCO = (255, 255, 255)
 AZUL  = (150, 206, 180)
 BEGE  = (255, 238, 173)
 
@@ -34,7 +32,6 @@ class Cor(pygame.sprite.Sprite):
         super(Cor, self).__init__()
         self.image = pygame.Surface([tamanho[0], tamanho[1]])
         self.image.fill(cor)
-
         self.pos = pos
         self.rect = self.image.get_rect()
         em_pixels = pos_tabuleiro(pos[0],pos[1])
@@ -77,9 +74,7 @@ def gerar_casas():
 
     for i in range(8):
         for j in range(8):
-
             casa = Casa(cores_alternadas.next(), tamanho_casas, [i,j])
-
             lista_casas.add(casa)
 
         cores_alternadas.next()
@@ -94,20 +89,17 @@ def gerar_pedras(lista_casas):
     for i in range(3):
         for j in range(8):
             casa = cores_alternadas.next()
-
             if casa == S_CASA_PRETA:
                 pedra = Pedra([i,j], S_PEDRA_ROSA)
                 casas_encontradas = pygame.sprite.spritecollide(pedra, lista_casas, False)
                 lista_pedras.add(pedra)
                 casas_encontradas[0].pedra = pedra
 
-
         cores_alternadas.next()
 
     for i in range(5,8):
         for j in range(8):
             casa = cores_alternadas.next()
-
             if casa == S_CASA_PRETA:
                 pedra = Pedra([i,j], S_PEDRA_VERDE)
                 casas_encontradas = pygame.sprite.spritecollide(pedra, lista_casas, False)
