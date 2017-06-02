@@ -35,13 +35,15 @@ while not done:
                 if not casa_atual:
                     if casa_clique.pedra:
                         # SELEÇÃO DE CASA
-                        print casa_clique
+                        print 'casa selecionada: ',casa_clique
                         casa_atual = casa_clique
+                        casa_atual.image = pygame.image.load(S_CASA_PRETA)
                 else:
                     if casa_clique.ocupavel:
                         # MOVIMENTO DE PEÇA
                         pedra = casa_atual.pedra
                         casa_atual.pedra = None
+                        casa_atual.image.fill(AZUL)
                         casa_atual = None
                         casa_clique.pedra = pedra
                         pedra.rect = casa_clique.rect
