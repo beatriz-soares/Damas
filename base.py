@@ -14,7 +14,7 @@ lista_completa = pygame.sprite.Group()
 
 """VARIÁVEIS DE CONTROLE"""
 done = False
-casa_selecionada = None
+casa_atual = None
 
 # ver:
 # https://stackoverflow.com/questions/10990137/pygame-mouse-clicking-detection
@@ -28,21 +28,27 @@ while not done:
 
             pedras_clicadas = [s for s in lista_pedras if s.rect.collidepoint(pos)]
 
-            print casa_selecionada,' > ',
-            casas_clicadas = [s for s in lista_casas if s.rect.collidepoint(pos)]
-            if casas_clicadas:
-                if not casa_selecionada:
-                    if casas_clicadas[0].pedra:
-                        print casas_clicadas
-                        casa_selecionada = casas_clicadas[0]
+            print casa_atual,' > ',
+            casa_clique = [s for s in lista_casas if s.rect.collidepoint(pos)][0]
+            if casa_clique:
+                # CLIQUE NO TABULEIRO
+                if not casa_atual:
+                    if casa_clique.pedra:
+                        # SELEÇÃO DE CASA
+                        print casa_clique
+                        casa_atual = casa_clique
                 else:
-                    if casa_selecionada and casa_selecionada.ocupavel:
-                        pedra = casa_selecionada.pedra
-                        casa_selecionada.pedra = None
-                        casa_selecionada = None
-                        casas_clicadas[0].pedra = pedra
-                        pedra.rect = casas_clicadas[0].rect
-            print casa_selecionada
+                    if casa_clique.ocupavel:
+                        # MOVIMENTO DE PEÇA
+                        pedra = casa_atual.pedra
+                        casa_atual.pedra = None
+                        casa_atual = None
+                        casa_clique.pedra = pedra
+                        pedra.rect = casa_clique.rect
+                    else:
+                        # DE-SELEÇÃO DE CASA
+                        casa_atual = None
+            print casa_atual
 
 
     screen.fill(BRANCO)
