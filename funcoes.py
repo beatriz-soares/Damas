@@ -72,6 +72,13 @@ class Pedra(Botao):
         self.rect.y = em_pixels[1]
         self.sprite = sprite
 
+        # ESSAS DIREÇÕES SÃO COMO VETORES QUE UTILIZAMOS PARA APONTAR QUE CASA PODE ANDAR
+        if sprite == S_PEDRA_ROSA:
+            self.direcoes = ((1,1),(1,-1))
+        else:
+            self.direcoes = ((-1,-1),(-1,1))
+
+
 
 """FUNÇÕES"""
 def gerar_casas():
@@ -125,7 +132,16 @@ def gerar_pedras(lista_casas):
     return lista_pedras
 
 def pos_tabuleiro(i,j):
+    # CONVERTE COORDENADAS CARTESIANAS EM COORDENADAS DE PIXELS
     coluna = posx_tabuleiro + tamanho_casas[0] * i
     linha = posx_tabuleiro + tamanho_casas[1] * j
 
     return (linha,coluna)
+
+def pintar_selecionavel(casa):
+    casa.image.fill(VERMELHO_ESCURO)
+    return casa
+
+def pintar_neutralidade(casa):
+    casa.image.fill(AZUL)
+    return casa
