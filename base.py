@@ -1,45 +1,97 @@
+# coding:utf-8
 import pygame
 import random
 from funcoes import *
+from itertools import cycle
 
 pygame.init()
 
-screen_width = 700
-screen_height = 400
+"""ENVIRONMENT"""
 screen = pygame.display.set_mode([screen_width, screen_height])
-
-block_list, all_sprites_list = desenha_tela()
-
-player = Block(RED, 20, 15)
-all_sprites_list.add(player)
-
-done = False
-
 clock = pygame.time.Clock()
+tabuleiro, lista_casas = gerar_casas()
+lista_pedras = gerar_pedras(lista_casas)
 
-score = 0
+def movimentos_possiveis(pedra):
+    # FOI NECESSÁRIO DECLARAR ESSA FUNÇÃO AQUI PARA ACESSAR A VARIÁVEL tabuleiro
+    global tabuleiro
+    casas = []
 
+    for direcao in pedra.direcoes:
+        x, y = pedra.pos[0] + direcao[0], pedra.pos[1] + direcao[1]
+        if x*y >= 0:
+            try:
+                casa = tabuleiro[x][y]
+                if not casa.pedra:
+                    casas.append(casa)
+            except Exception:
+                pass
+
+    return casas
+
+
+"""VARIÁVEIS DE CONTROLE"""
+done = False
+vez = cycle([S_PEDRA_ROSA, S_PEDRA_VERDE])
+turno = vez.next()
+casa_atual = None
+casas_pintadas = []
+
+# ver:
+# https://stackoverflow.com/questions/10990137/pygame-mouse-clicking-detection
+# http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
+        elif event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
 
-    screen.fill(WHITE)
-    pos = pygame.mouse.get_pos()
+            pedras_clicadas = [s for s in lista_pedras if s.rect.collidepoint(pos)]
 
-    player.rect.x = pos[0]
-    player.rect.y = pos[1]
+            try:
+                casa_clique = [s for s in lista_casas if s.rect.collidepoint(pos)][0]
+            except Exception as e:
+                pass
+            if casa_clique:
+                # CLIQUE NO TABULEIRO
+                if not casa_atual:
+                    if casa_clique.pedra:
+                        # SELEÇÃO DE CASA
+                        casa_atual, casas_possiveis = casa_clique, movimentos_possiveis(casa_clique.pedra)
+                        casas_pintadas.extend(casas_possiveis + [casa_atual])
+                        map(pintar_selecionavel, casas_pintadas)
 
-    """blocks_hit_list = pygame.sprite.spritecollide(player, block_list, False)
+                else:
+                    if casa_clique.ocupavel and not casa_clique.pedra:
+                        if not casa_atual.pedra.sprite == turno:
+                            print "nao eh sua vez"
+                            casa_atual = None
 
-    for block in blocks_hit_list:
-        score += 1
-        print(score)"""
+                        else:
+                            pedra = casa_atual.pedra
+                            if casa_clique in movimentos_possiveis(pedra):
+                                # MOVIMENTO DE PEÇA
+                                casa_atual.pedra = None
+                                casa_atual = None
+                                casa_clique.pedra = pedra
+                                pedra.rect = casa_clique.rect
+                                map(pintar_neutralidade, casas_pintadas)
+                                turno = vez.next()
+                    else:
+                        # DE-SELEÇÃO DE CASA
+                        map(pintar_neutralidade, casas_pintadas)
+                        casa_atual = None
+                        casas_pintadas = []
 
-    all_sprites_list.draw(screen)
+
+    screen.fill(BRANCO)
+
+    lista_casas.draw(screen)
+    lista_pedras.draw(screen)
+
 
     pygame.display.flip()
-
-    clock.tick(60)
+    clock.tick(30)
 
 pygame.quit()
