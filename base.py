@@ -11,7 +11,6 @@ screen = pygame.display.set_mode([screen_width, screen_height])
 clock = pygame.time.Clock()
 lista_casas = gerar_casas()
 lista_pedras = gerar_pedras(lista_casas)
-print tabuleiro
 
 """VARIÁVEIS DE CONTROLE"""
 done = False
@@ -28,7 +27,6 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         elif event.type == pygame.MOUSEBUTTONUP:
-            print casas_pintadas
             pos = pygame.mouse.get_pos()
 
             pedras_clicadas = [s for s in lista_pedras if s.rect.collidepoint(pos)]
@@ -67,9 +65,9 @@ while not done:
 
                                 # PÓS-MOVIMENTO
                                 turno = vez.next()
-                    else:
-                        # DE-SELEÇÃO DE CASA
-                        casa_atual = None
+                                
+                    # DE-SELEÇÃO DE CASA
+                    casa_atual = None
 
                     # RESETAR AS CORES DAS CASAS
                     map(pintar_neutralidade, casas_pintadas)
