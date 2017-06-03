@@ -18,6 +18,8 @@ done = False
 casa_selecionada = None
 vez = cycle([S_PEDRA_ROSA, S_PEDRA_VERDE])
 turno = vez.next()
+casa_atual = None
+
 # ver:
 # https://stackoverflow.com/questions/10990137/pygame-mouse-clicking-detection
 # http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/
@@ -30,13 +32,16 @@ while not done:
 
             pedras_clicadas = [s for s in lista_pedras if s.rect.collidepoint(pos)]
 
-            print casa_selecionada,' > ',
-            casas_clicadas = [s for s in lista_casas if s.rect.collidepoint(pos)]
-            if casas_clicadas:
-                if not casa_selecionada:
-                    if casas_clicadas[0].pedra:
-                        print casas_clicadas
-                        casa_selecionada = casas_clicadas[0]
+            print casa_atual,' > ',
+            casa_clique = [s for s in lista_casas if s.rect.collidepoint(pos)][0]
+            if casa_clique:
+                # CLIQUE NO TABULEIRO
+                if not casa_atual:
+                    if casa_clique.pedra:
+                        # SELEÇÃO DE CASA
+                        print 'casa selecionada: ',casa_clique
+                        casa_atual = casa_clique
+                        casa_atual.image = pygame.image.load(S_CASA_PRETA)
                 else:
                     if casa_selecionada and casa_selecionada.ocupavel:
                         if casa_selecionada.pedra.sprite == turno:
@@ -51,6 +56,18 @@ while not done:
                             casa_selecionada = None
 
             print casa_selecionada
+                    if casa_clique.ocupavel:
+                        # MOVIMENTO DE PEÇA
+                        pedra = casa_atual.pedra
+                        casa_atual.pedra = None
+                        casa_atual.image.fill(AZUL)
+                        casa_atual = None
+                        casa_clique.pedra = pedra
+                        pedra.rect = casa_clique.rect
+                    else:
+                        # DE-SELEÇÃO DE CASA
+                        casa_atual = None
+            print casa_atual
 
 
     screen.fill(BRANCO)
