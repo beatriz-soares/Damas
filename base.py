@@ -2,6 +2,7 @@
 import pygame
 import random
 from funcoes import *
+from itertools import cycle
 
 pygame.init()
 
@@ -15,7 +16,8 @@ lista_completa = pygame.sprite.Group()
 """VARIÁVEIS DE CONTROLE"""
 done = False
 casa_selecionada = None
-
+vez = cycle([S_PEDRA_ROSA, S_PEDRA_VERDE])
+turno = vez.next()
 # ver:
 # https://stackoverflow.com/questions/10990137/pygame-mouse-clicking-detection
 # http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/
@@ -37,11 +39,17 @@ while not done:
                         casa_selecionada = casas_clicadas[0]
                 else:
                     if casa_selecionada and casa_selecionada.ocupavel:
-                        pedra = casa_selecionada.pedra
-                        casa_selecionada.pedra = None
-                        casa_selecionada = None
-                        casas_clicadas[0].pedra = pedra
-                        pedra.rect = casas_clicadas[0].rect
+                        if casa_selecionada.pedra.sprite == turno:
+                            pedra = casa_selecionada.pedra
+                            casa_selecionada.pedra = None
+                            casa_selecionada = None
+                            casas_clicadas[0].pedra = pedra
+                            pedra.rect = casas_clicadas[0].rect
+                            turno = vez.next()
+                        else:
+                            print "nao eh sua vez"
+                            casa_selecionada = None
+
             print casa_selecionada
 
 
