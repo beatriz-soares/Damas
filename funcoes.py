@@ -26,6 +26,12 @@ posy_tabuleiro = 20
 
 tamanho_casas = (60,60)
 
+# DECLARAÇÃO DE TABULEIRO
+# O tabuleiro foi declarado aqui para que ele possa ser acessado
+# globalmente pelas funções definidas abaixo e em seguida
+# ser importado no arquivo base.py
+tabuleiro = []
+
 """CLASSES"""
 class Cor(pygame.sprite.Sprite):
 
@@ -61,7 +67,7 @@ class Casa(Cor):
         self.id = None
 
     def __repr__(self):
-        return 'casa %d' % self.id
+        return '#%d @%d,%d' % (self.id, self.pos[0], self.pos[1])
 
 class Pedra(Botao):
     def __init__(self, pos, sprite):
@@ -82,7 +88,7 @@ class Pedra(Botao):
 
 """FUNÇÕES"""
 def gerar_casas():
-    tabuleiro = []
+    global tabuleiro
     lista_casas = pygame.sprite.Group()
 
     cores_alternadas = cycle([BEGE, AZUL])
@@ -100,7 +106,7 @@ def gerar_casas():
 
         cores_alternadas.next()
 
-    return tabuleiro, lista_casas
+    return lista_casas
 
 def gerar_pedras(lista_casas):
     lista_pedras = pygame.sprite.Group()
@@ -145,3 +151,19 @@ def pintar_selecionavel(casa):
 def pintar_neutralidade(casa):
     casa.image.fill(AZUL)
     return casa
+
+def movimentos_possiveis(pedra):
+    global tabuleiro
+    casas = []
+
+    for direcao in pedra.direcoes:
+        x, y = pedra.pos[0] + direcao[0], pedra.pos[1] + direcao[1]
+        if x*y >= 0:
+            try:
+                casa = tabuleiro[x][y]
+                if not casa.pedra:
+                    casas.append(casa)
+            except Exception:
+                pass
+
+    return casas
