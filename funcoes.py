@@ -23,7 +23,7 @@ screen_height = 520
 
 posx_tabuleiro = 20
 posy_tabuleiro = 20
-
+comiveis = (((1,1),(2,2)), ((1,-1),(2,-2)), ((-1,-1),(-2,-2)),((-1,1),(-2,2)))
 tamanho_casas = (60,60)
 
 # DECLARAÇÃO DE TABULEIRO
@@ -163,6 +163,22 @@ def movimentos_possiveis(pedra):
                 casa = tabuleiro[x][y]
                 if not casa.pedra:
                     casas.append(casa)
+            except Exception:
+                pass
+
+    for possibilidade in comiveis:
+        comida_x, comida_y = pedra.pos[0] + possibilidade[0][0], pedra.pos[1] + possibilidade[0][1]
+        destino_x, destino_y = pedra.pos[0] + possibilidade[1][0], pedra.pos[1] + possibilidade[1][1]
+
+        if destino_x*destino_y >= 0:
+            try:
+                casa_comida = tabuleiro[comida_x][comida_y]
+                casa_destino = tabuleiro[destino_x][destino_y]
+                if casa_comida.pedra and casa_comida.pedra.sprite != pedra.sprite:
+                    if not casa_destino.pedra:
+                        del casas[:]
+                        casas.append(casa_destino)
+                        return casas
             except Exception:
                 pass
 

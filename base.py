@@ -42,8 +42,7 @@ while not done:
                     if casa_clique.pedra:
                         # SELEÇÃO DE CASA
                         casa_atual, casas_possiveis = casa_clique, movimentos_possiveis(casa_clique.pedra)
-                        casas_pintadas.extend(casas_possiveis + [casa_atual])
-                        map(pintar_selecionavel, casas_pintadas)
+                        map(pintar_selecionavel, casas_possiveis)
 
                 else:
                     if casa_clique.ocupavel and not casa_clique.pedra:
@@ -69,7 +68,7 @@ while not done:
                     casa_atual = None
 
                     # RESETAR AS CORES DAS CASAS
-                    map(pintar_neutralidade, casas_pintadas)
+                    map(pintar_neutralidade, casas_possiveis)
                     casas_pintadas = []
 
 
