@@ -9,26 +9,9 @@ pygame.init()
 """ENVIRONMENT"""
 screen = pygame.display.set_mode([screen_width, screen_height])
 clock = pygame.time.Clock()
-tabuleiro, lista_casas = gerar_casas()
+lista_casas = gerar_casas()
 lista_pedras = gerar_pedras(lista_casas)
-
-def movimentos_possiveis(pedra):
-    # FOI NECESSÁRIO DECLARAR ESSA FUNÇÃO AQUI PARA ACESSAR A VARIÁVEL tabuleiro
-    global tabuleiro
-    casas = []
-
-    for direcao in pedra.direcoes:
-        x, y = pedra.pos[0] + direcao[0], pedra.pos[1] + direcao[1]
-        if x*y >= 0:
-            try:
-                casa = tabuleiro[x][y]
-                if not casa.pedra:
-                    casas.append(casa)
-            except Exception:
-                pass
-
-    return casas
-
+print tabuleiro
 
 """VARIÁVEIS DE CONTROLE"""
 done = False
@@ -45,6 +28,7 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         elif event.type == pygame.MOUSEBUTTONUP:
+            print casas_pintadas
             pos = pygame.mouse.get_pos()
 
             pedras_clicadas = [s for s in lista_pedras if s.rect.collidepoint(pos)]
@@ -72,17 +56,24 @@ while not done:
                             pedra = casa_atual.pedra
                             if casa_clique in movimentos_possiveis(pedra):
                                 # MOVIMENTO DE PEÇA
+                                # PRÉ-MOVIMENTO
                                 casa_atual.pedra = None
                                 casa_atual = None
+
+                                # MOVIMENTO
                                 casa_clique.pedra = pedra
                                 pedra.rect = casa_clique.rect
-                                map(pintar_neutralidade, casas_pintadas)
+                                pedra.pos = casa_clique.pos
+
+                                # PÓS-MOVIMENTO
                                 turno = vez.next()
                     else:
                         # DE-SELEÇÃO DE CASA
-                        map(pintar_neutralidade, casas_pintadas)
                         casa_atual = None
-                        casas_pintadas = []
+
+                    # RESETAR AS CORES DAS CASAS
+                    map(pintar_neutralidade, casas_pintadas)
+                    casas_pintadas = []
 
 
     screen.fill(BRANCO)
