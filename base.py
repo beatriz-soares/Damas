@@ -34,6 +34,7 @@ while not done:
             try:
                 casa_clique = [s for s in lista_casas if s.rect.collidepoint(pos)][0]
             except Exception as e:
+                casa_clique = None
                 pass
             if casa_clique:
                 # CLIQUE NO TABULEIRO
@@ -48,7 +49,6 @@ while not done:
                     if casa_clique.ocupavel and not casa_clique.pedra:
                         if not casa_atual.pedra.sprite == turno:
                             print "nao eh sua vez"
-                            casa_atual = None
 
                         else:
                             pedra = casa_atual.pedra
@@ -56,7 +56,6 @@ while not done:
                                 # MOVIMENTO DE PEÇA
                                 # PRÉ-MOVIMENTO
                                 casa_atual.pedra = None
-                                casa_atual = None
 
                                 # MOVIMENTO
                                 casa_clique.pedra = pedra
@@ -65,7 +64,7 @@ while not done:
 
                                 # PÓS-MOVIMENTO
                                 turno = vez.next()
-                                
+
                     # DE-SELEÇÃO DE CASA
                     casa_atual = None
 
