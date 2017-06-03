@@ -8,9 +8,8 @@ pygame.init()
 """ENVIRONMENT"""
 screen = pygame.display.set_mode([screen_width, screen_height])
 clock = pygame.time.Clock()
-lista_casas = gerar_casas()
+tabuleiro, lista_casas = gerar_casas()
 lista_pedras = gerar_pedras(lista_casas)
-lista_completa = pygame.sprite.Group()
 
 """VARIÁVEIS DE CONTROLE"""
 done = False
@@ -37,9 +36,9 @@ while not done:
                         # SELEÇÃO DE CASA
                         print 'casa selecionada: ',casa_clique
                         casa_atual = casa_clique
-                        casa_atual.image = pygame.image.load(S_CASA_PRETA)
+                        casa_atual.image.fill(VERMELHO_ESCURO)
                 else:
-                    if casa_clique.ocupavel:
+                    if casa_clique.ocupavel and not casa_clique.pedra:
                         # MOVIMENTO DE PEÇA
                         pedra = casa_atual.pedra
                         casa_atual.pedra = None
@@ -49,6 +48,7 @@ while not done:
                         pedra.rect = casa_clique.rect
                     else:
                         # DE-SELEÇÃO DE CASA
+                        casa_atual.image.fill(AZUL)
                         casa_atual = None
             print casa_atual
 
@@ -57,6 +57,7 @@ while not done:
 
     lista_casas.draw(screen)
     lista_pedras.draw(screen)
+
 
     pygame.display.flip()
     clock.tick(30)

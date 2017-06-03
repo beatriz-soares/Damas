@@ -7,6 +7,7 @@ from itertools import cycle
 BRANCO = (255, 255, 255)
 AZUL  = (150, 206, 180)
 BEGE  = (255, 238, 173)
+VERMELHO_ESCURO = (197, 81, 68)
 
 # TIPOS DE PEÇA (COR DA PEÇA OU TIME)
 S_PEDRA_ROSA = "sprites/pedra_rosa.png"
@@ -74,21 +75,25 @@ class Pedra(Botao):
 
 """FUNÇÕES"""
 def gerar_casas():
+    tabuleiro = []
     lista_casas = pygame.sprite.Group()
 
     cores_alternadas = cycle([BEGE, AZUL])
 
     for i in range(8):
+        linha = []
         for j in range(8):
             casa = Casa(cores_alternadas.next(), tamanho_casas, [i,j])
             if casa.cor == AZUL:
                 casa.ocupavel = True
             lista_casas.add(casa)
+            linha.append(casa)
             casa.id = len(lista_casas)
+        tabuleiro.append(linha)
 
         cores_alternadas.next()
 
-    return lista_casas
+    return tabuleiro, lista_casas
 
 def gerar_pedras(lista_casas):
     lista_pedras = pygame.sprite.Group()
