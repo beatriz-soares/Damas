@@ -2,6 +2,7 @@
 import pygame
 import random
 from funcoes import *
+from itertools import cycle
 
 pygame.init()
 
@@ -31,6 +32,8 @@ def movimentos_possiveis(pedra):
 
 """VARIÁVEIS DE CONTROLE"""
 done = False
+vez = cycle([S_PEDRA_ROSA, S_PEDRA_VERDE])
+turno = vez.next()
 casa_atual = None
 casas_pintadas = []
 
@@ -61,14 +64,20 @@ while not done:
 
                 else:
                     if casa_clique.ocupavel and not casa_clique.pedra:
-                        # MOVIMENTO DE PEÇA
-                        pedra = casa_atual.pedra
-                        if casa_clique in movimentos_possiveis(pedra):
-                            casa_atual.pedra = None
+                        if not casa_atual.pedra.sprite == turno:
+                            print "nao eh sua vez"
                             casa_atual = None
-                            casa_clique.pedra = pedra
-                            pedra.rect = casa_clique.rect
-                            map(pintar_neutralidade, casas_pintadas)
+
+                        else:
+                            pedra = casa_atual.pedra
+                            if casa_clique in movimentos_possiveis(pedra):
+                                # MOVIMENTO DE PEÇA
+                                casa_atual.pedra = None
+                                casa_atual = None
+                                casa_clique.pedra = pedra
+                                pedra.rect = casa_clique.rect
+                                map(pintar_neutralidade, casas_pintadas)
+                                turno = vez.next()
                     else:
                         # DE-SELEÇÃO DE CASA
                         map(pintar_neutralidade, casas_pintadas)

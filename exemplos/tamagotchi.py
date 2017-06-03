@@ -378,4 +378,4 @@ def main():
         clock.tick(FPS)
 
 if __name__ == '__main__':
-    main()tama
+    main()
