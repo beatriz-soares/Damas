@@ -23,6 +23,7 @@ casas_pintadas = []
 # https://stackoverflow.com/questions/10990137/pygame-mouse-clicking-detection
 # http://samwize.com/2012/09/19/how-you-should-write-getter-slash-setter-for-python/
 while not done:
+    casa_clique = None
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done = True
@@ -36,13 +37,22 @@ while not done:
             except Exception as e:
                 casa_clique = None
                 pass
+
             if casa_clique:
                 # CLIQUE NO TABULEIRO
                 if not casa_atual:
                     if casa_clique.pedra:
                         # SELEÇÃO DE CASA
+                        for casa in lista_casas:
+                            if casa.pedra:
+                                if casa.pedra.sprite == turno:
+                                    movimentos = movimentos_possiveis(casa.pedra)
+                                    if movimentos[1]:
+                                        casa_clique = casa
+                                        break
                         movimentos = movimentos_possiveis(casa_clique.pedra)
                         casa_atual, casas_possiveis = casa_clique, movimentos[0]
+
                         map(pintar_selecionavel, casas_possiveis)
 
                 else:
@@ -66,6 +76,7 @@ while not done:
                                     casa_comida = movimentos[1]
                                     pedra_comida = casa_comida.pedra
                                     casa_comida.pedra = None
+                                    lista_pedras.remove(pedra_comida)
                                     print "comeu"
 
                                 # PÓS-MOVIMENTO
