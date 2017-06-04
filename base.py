@@ -18,6 +18,8 @@ vez = cycle([S_PEDRA_ROSA, S_PEDRA_VERDE])
 turno = vez.next()
 casa_atual = None
 casas_pintadas = []
+myfont = pygame.font.SysFont("monospace", 15)
+label = myfont.render("Comecou", 1, (255,0,0))
 
 # ver:
 # https://stackoverflow.com/questions/10990137/pygame-mouse-clicking-detection
@@ -59,6 +61,7 @@ while not done:
                     if casa_clique.ocupavel and not casa_clique.pedra:
                         if not casa_atual.pedra.sprite == turno:
                             print "nao eh sua vez"
+                            label = myfont.render("Nao eh sua vez", 1, (255,0,0))
 
                         else:
                             pedra = casa_atual.pedra
@@ -81,6 +84,7 @@ while not done:
 
                                 # PÓS-MOVIMENTO
                                 turno = vez.next()
+                                label = myfont.render("Vez de %s" %turno, 1, (255,0,0))
 
                     # DE-SELEÇÃO DE CASA
                     casa_atual = None
@@ -94,7 +98,7 @@ while not done:
 
     lista_casas.draw(screen)
     lista_pedras.draw(screen)
-
+    screen.blit(label, (0, 0))
 
     pygame.display.flip()
     clock.tick(30)
