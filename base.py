@@ -41,7 +41,8 @@ while not done:
                 if not casa_atual:
                     if casa_clique.pedra:
                         # SELEÇÃO DE CASA
-                        casa_atual, casas_possiveis = casa_clique, movimentos_possiveis(casa_clique.pedra)
+                        movimentos = movimentos_possiveis(casa_clique.pedra)
+                        casa_atual, casas_possiveis = casa_clique, movimentos[0]
                         map(pintar_selecionavel, casas_possiveis)
 
                 else:
@@ -51,7 +52,7 @@ while not done:
 
                         else:
                             pedra = casa_atual.pedra
-                            if casa_clique in movimentos_possiveis(pedra):
+                            if casa_clique in movimentos_possiveis(pedra)[0]:
                                 # MOVIMENTO DE PEÇA
                                 # PRÉ-MOVIMENTO
                                 casa_atual.pedra = None
@@ -60,6 +61,13 @@ while not done:
                                 casa_clique.pedra = pedra
                                 pedra.rect = casa_clique.rect
                                 pedra.pos = casa_clique.pos
+
+                                if movimentos[1]:
+                                    casa_comida = movimentos[1]
+                                    pedra_comida = casa_comida.pedra
+                                    casa_comida.pedra = None
+                                    pedra_comida.rect = (100000, 100000)
+                                    print "comeu"
 
                                 # PÓS-MOVIMENTO
                                 turno = vez.next()

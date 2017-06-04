@@ -155,6 +155,7 @@ def pintar_neutralidade(casa):
 def movimentos_possiveis(pedra):
     global tabuleiro
     casas = []
+    comida = None
 
     for direcao in pedra.direcoes:
         x, y = pedra.pos[0] + direcao[0], pedra.pos[1] + direcao[1]
@@ -178,8 +179,9 @@ def movimentos_possiveis(pedra):
                     if not casa_destino.pedra:
                         del casas[:]
                         casas.append(casa_destino)
-                        return casas
+                        comida = casa_comida
+                        return [casas, comida]
             except Exception:
                 pass
 
-    return casas
+    return [casas, comida]
