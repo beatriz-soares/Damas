@@ -66,7 +66,6 @@ while not done:
                                     casa_comida = movimentos[1]
                                     pedra_comida = casa_comida.pedra
                                     casa_comida.pedra = None
-                                    pedra_comida.rect = (100000, 100000)
                                     print "comeu"
 
                                 # PÓS-MOVIMENTO
