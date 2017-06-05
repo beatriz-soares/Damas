@@ -25,7 +25,6 @@ posx_tabuleiro = 20
 posy_tabuleiro = 20
 comiveis = (((1,1),(2,2)), ((1,-1),(2,-2)), ((-1,-1),(-2,-2)),((-1,1),(-2,2)))
 tamanho_casas = (60,60)
-
 # DECLARAÇÃO DE TABULEIRO
 # O tabuleiro foi declarado aqui para que ele possa ser acessado
 # globalmente pelas funções definidas abaixo e em seguida

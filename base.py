@@ -16,6 +16,7 @@ lista_pedras = gerar_pedras(lista_casas)
 done = False
 vez = cycle([S_PEDRA_ROSA, S_PEDRA_VERDE])
 turno = vez.next()
+qtd = {S_PEDRA_ROSA: 12, S_PEDRA_VERDE:12}
 casa_atual = None
 casas_pintadas = []
 myfont = pygame.font.SysFont("monospace", 15)
@@ -80,6 +81,10 @@ while not done:
                                     pedra_comida = casa_comida.pedra
                                     casa_comida.pedra = None
                                     lista_pedras.remove(pedra_comida)
+                                    qtd[pedra_comida.sprite]-=1
+                                    if qtd[pedra_comida.sprite] == 0:
+                                        label = myfont.render("Vencedor: %s"%pedra_comida.sprite, 1, (255,0,0))
+                                        done = True
                                     print "comeu"
 
                                 # PÓS-MOVIMENTO
