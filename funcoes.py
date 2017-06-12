@@ -154,7 +154,8 @@ def pintar_neutralidade(casa):
 def movimentos_possiveis(pedra):
     global tabuleiro
     casas = []
-    comida = None
+    casa_comer = []
+    comida = []
 
     for direcao in pedra.direcoes:
         x, y = pedra.pos[0] + direcao[0], pedra.pos[1] + direcao[1]
@@ -176,11 +177,10 @@ def movimentos_possiveis(pedra):
                 casa_destino = tabuleiro[destino_x][destino_y]
                 if casa_comida.pedra and casa_comida.pedra.sprite != pedra.sprite:
                     if not casa_destino.pedra:
-                        del casas[:]
-                        casas.append(casa_destino)
-                        comida = casa_comida
-                        return [casas, comida]
+                        casa_comer.append(casa_destino)
+                        comida.append(casa_comida)
             except Exception:
                 pass
-
+    if len(casa_comer) > 0:
+        return [casa_comer, comida]
     return [casas, comida]
