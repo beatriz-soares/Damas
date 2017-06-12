@@ -44,7 +44,12 @@ while not done:
                 mouse = pygame.mouse.get_pos()
 
                 if botao_1x1.rect.collidepoint(mouse):
+                    label = myfont.render("Comecou 1x1", 1, VERMELHO)
                     tela = jogo_1x1
+
+                if botao_1xPC.rect.collidepoint(mouse):
+                    label = myfont.render("Comecou 1xPC", 1, VERMELHO)
+                    tela = jogo_1xPC
 
         lista_inicio.draw(screen)
 

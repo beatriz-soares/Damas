@@ -24,6 +24,10 @@ jogo_1x1 = 2
 jogo_1xPC = 3
 fim = 4
 
+# TEXTOS
+texto_1x1 = 'JOGAR 1x1'
+texto_1xPC = 'JOGAR 1xPC'
+
 # ENVIRONMENT
 screen_width = 520
 screen_height = 520
@@ -174,10 +178,10 @@ def gerar_coisas_do_inicio():
     meio_vertical = (screen_height/2 - tam_botao[1]/2)/2
 
     humano_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(meio_horizontal, meio_vertical)}
-    humano_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':'JOGAR 1x1'}
+    humano_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_1x1}
 
     maquina_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(meio_horizontal, meio_vertical + tam_botao[1]*1.5)}
-    maquina_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':'JOGAR 1xPC'}
+    maquina_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_1xPC}
 
     botao_humano = Texto(humano_surface, humano_texto)
     botao_maquina = Texto(maquina_surface, maquina_texto)
