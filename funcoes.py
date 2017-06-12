@@ -103,6 +103,7 @@ class Casa(Cor):
 class Pedra(Botao):
     def __init__(self, pos, sprite):
         super(Pedra, self).__init__(sprite)
+        self.casa = None
         self.pos = pos
         em_pixels = pos_tabuleiro(pos[0],pos[1])
         self.rect.x = em_pixels[0]
@@ -153,6 +154,7 @@ def gerar_pedras(lista_casas):
                 casas_encontradas = pygame.sprite.spritecollide(pedra, lista_casas, False)
                 lista_pedras.add(pedra)
                 casas_encontradas[0].pedra = pedra
+                pedra.casa = casas_encontradas[0]
 
         cores_alternadas.next()
 
