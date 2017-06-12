@@ -44,6 +44,8 @@ while not done:
 
         lista_inicio.draw(screen)
 
+        # FIM EVENTOS DA TELA DE INICIO
+
 
     elif tela == jogo:
         # EVENTOS QUE ACONTECEM DURANTE A PARTIDA
@@ -71,9 +73,6 @@ while not done:
                                 if casa.pedra:
                                     if casa.pedra.sprite == turno:
                                         movimentos = movimentos_possiveis(casa.pedra)
-                                        if movimentos[1]:
-                                            casa_clique = casa
-                                            break
                             movimentos = movimentos_possiveis(casa_clique.pedra)
                             casa_atual, casas_possiveis = casa_clique, movimentos[0]
 
@@ -83,7 +82,7 @@ while not done:
                         if casa_clique.ocupavel and not casa_clique.pedra:
                             if not casa_atual.pedra.sprite == turno:
                                 print "nao eh sua vez"
-                                label = myfont.render("Nao eh sua vez", 1, VERMELHO)
+                                label = myfont.render("Nao eh sua vez", 1, (255,0,0))
 
                             else:
                                 pedra = casa_atual.pedra
@@ -97,20 +96,23 @@ while not done:
                                     pedra.rect = casa_clique.rect
                                     pedra.pos = casa_clique.pos
 
-                                    if movimentos[1]:
-                                        casa_comida = movimentos[1]
-                                        pedra_comida = casa_comida.pedra
-                                        casa_comida.pedra = None
-                                        lista_pedras.remove(pedra_comida)
-                                        qtd[pedra_comida.sprite]-=1
-                                        if qtd[pedra_comida.sprite] == 0:
-                                            label = myfont.render("Vencedor: %s"%pedra_comida.sprite, 1, (255,0,0))
-                                            done = True
-                                        print "comeu"
+                                    try:
+                                        if movimentos[1][0]:
+                                            casa_comida = movimentos[1][movimentos[0].index(casa_clique)]
+                                            pedra_comida = casa_comida.pedra
+                                            casa_comida.pedra = None
+                                            lista_pedras.remove(pedra_comida)
+                                            qtd[pedra_comida.sprite]-=1
+                                            if qtd[pedra_comida.sprite] == 0:
+                                                label = myfont.render("Vencedor: %s"%pedra_comida.sprite, 1, (255,0,0))
+                                                done = True
+                                            print "comeu"
+                                    except Exception as e:
+                                        pass
 
                                     # PÓS-MOVIMENTO
                                     turno = vez.next()
-                                    label = myfont.render("Vez de %s" %turno, 1, VERMELHO)
+                                    label = myfont.render("Vez de %s" %turno, 1, (255,0,0))
 
                         # DE-SELEÇÃO DE CASA
                         casa_atual = None
@@ -119,11 +121,11 @@ while not done:
                         map(pintar_neutralidade, casas_possiveis)
                         casas_pintadas = []
 
-
-
         lista_casas.draw(screen)
         lista_pedras.draw(screen)
         screen.blit(label, (0, 0))
+
+        # FIM EVENTOS DA TELA DE PARTIDA
 
 
     pygame.display.flip()
