@@ -178,8 +178,24 @@ def movimentos_possiveis(pedra):
                 if casa_comida.pedra and casa_comida.pedra.sprite != pedra.sprite:
                     if not casa_destino.pedra:
                         casa_comer.append(casa_destino)
-                        comida.append(casa_comida)
-            except Exception:
+                        comida.append([casa_comida])
+                        for possibilidade in comiveis:
+
+                            comida_x, comida_y = destino_x + possibilidade[0][0], destino_y + possibilidade[0][1]
+                            destino_x, destino_y = destino_x + possibilidade[1][0], destino_y + possibilidade[1][1]
+
+                            try:
+                                casa_comida_2 = tabuleiro[comida_x][comida_y]
+                                casa_destino_2 = tabuleiro[destino_x][destino_y]
+                                if casa_comida_2.pedra and casa_comida_2.pedra.sprite != pedra.sprite:
+                                    if not casa_destino_2.pedra:
+                                        casa_comer.remove(casa_destino)
+                                        comida.remove([casa_comida])
+                                        casa_comer.append(casa_destino_2)
+                                        comida.append([casa_comida, casa_comida_2])
+                            except Exception:
+                                pass
+            except Exception as e:
                 pass
     if len(casa_comer) > 0:
         return [casa_comer, comida]

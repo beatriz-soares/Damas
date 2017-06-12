@@ -76,10 +76,11 @@ while not done:
                                 try:
                                     if movimentos[1][0]:
                                         casa_comida = movimentos[1][movimentos[0].index(casa_clique)]
-                                        pedra_comida = casa_comida.pedra
-                                        casa_comida.pedra = None
-                                        lista_pedras.remove(pedra_comida)
-                                        qtd[pedra_comida.sprite]-=1
+                                        for c in casa_comida:
+                                            pedra_comida = c.pedra
+                                            c.pedra = None
+                                            lista_pedras.remove(pedra_comida)
+                                            qtd[pedra_comida.sprite]-=1
                                         if qtd[pedra_comida.sprite] == 0:
                                             label = myfont.render("Vencedor: %s"%pedra_comida.sprite, 1, (255,0,0))
                                             done = True
