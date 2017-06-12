@@ -20,8 +20,9 @@ S_CASA_PRETA = "sprites/casa_preta.jpg"
 
 # TELAS
 inicio = 1
-jogo = 2
-fim = 3
+jogo_1x1 = 2
+jogo_1xPC = 3
+fim = 4
 
 # ENVIRONMENT
 screen_width = 520
