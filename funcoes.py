@@ -7,6 +7,7 @@ from itertools import cycle
 BRANCO = (255, 255, 255)
 AZUL  = (150, 206, 180)
 BEGE  = (255, 238, 173)
+VERMELHO = (255,0,0)
 VERMELHO_ESCURO = (197, 81, 68)
 
 # TIPOS DE PEÇA (COR DA PEÇA OU TIME)
@@ -16,6 +17,11 @@ S_PEDRA_VERDE = "sprites/pedra_verde.png"
 # SPRITES
 S_CASA_BRANCA = "sprites/casa_branca.jpg"
 S_CASA_PRETA = "sprites/casa_preta.jpg"
+
+# TELAS
+inicio = 1
+jogo = 2
+fim = 3
 
 # ENVIRONMENT
 screen_width = 520
@@ -43,6 +49,26 @@ class Cor(pygame.sprite.Sprite):
         em_pixels = pos_tabuleiro(pos[0],pos[1])
         self.rect.x = em_pixels[0]
         self.rect.y = em_pixels[1]
+
+class Texto(pygame.sprite.Sprite):
+    def __init__(self, dict_surface, dict_texto):
+        super(Texto, self).__init__()
+
+        tamanho = dict_surface['tamanho']
+        cor = dict_surface['cor']
+        pos = dict_surface['pos']
+
+        self.image = pygame.Surface([tamanho[0], tamanho[1]])
+        self.image.fill(cor)
+        self.rect = self.image.get_rect()
+        self.rect.x = pos[0]
+        self.rect.y = pos[1]
+
+        self.font = pygame.font.SysFont("Arial", dict_texto['size'])
+        self.textSurf = self.font.render(dict_texto['text'], 1, dict_texto['color'])
+        W = self.textSurf.get_width()
+        H = self.textSurf.get_height()
+        self.image.blit(self.textSurf, (dict_surface['tamanho'][0]/2 - W/2, dict_surface['tamanho'][1]/2 - H/2))
 
 class Bloco(pygame.sprite.Sprite):
 
@@ -82,6 +108,7 @@ class Pedra(Botao):
             self.direcoes = ((1,1),(1,-1))
         else:
             self.direcoes = ((-1,-1),(-1,1))
+
 
 
 
@@ -135,6 +162,28 @@ def gerar_pedras(lista_casas):
         cores_alternadas.next()
 
     return lista_pedras
+
+def gerar_coisas_do_inicio():
+    lista_coisas = pygame.sprite.Group()
+
+    tam_botao = [100,50]
+
+    meio_horizontal = screen_width/2 - tam_botao[0]/2
+    meio_vertical = (screen_height/2 - tam_botao[1]/2)/2
+
+    humano_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(meio_horizontal, meio_vertical)}
+    humano_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':'JOGAR 1x1'}
+
+    maquina_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(meio_horizontal, meio_vertical + tam_botao[1]*1.5)}
+    maquina_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':'JOGAR 1xPC'}
+
+    botao_humano = Texto(humano_surface, humano_texto)
+    botao_maquina = Texto(maquina_surface, maquina_texto)
+
+    lista_coisas.add(botao_humano)
+    lista_coisas.add(botao_maquina)
+
+    return lista_coisas
 
 def pos_tabuleiro(i,j):
     # CONVERTE COORDENADAS CARTESIANAS EM COORDENADAS DE PIXELS
