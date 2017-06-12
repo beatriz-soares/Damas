@@ -39,8 +39,12 @@ while not done:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
+            elif event.type == pygame.MOUSEBUTTONUP:
+                botao_1x1, botao_1xPC = lista_inicio.sprites()
+                mouse = pygame.mouse.get_pos()
 
-        tela = jogo
+                if botao_1x1.rect.collidepoint(mouse):
+                    tela = jogo
 
         lista_inicio.draw(screen)
 

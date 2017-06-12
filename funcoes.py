@@ -66,6 +66,7 @@ class Texto(pygame.sprite.Sprite):
 
         self.font = pygame.font.SysFont("Arial", dict_texto['size'])
         self.textSurf = self.font.render(dict_texto['text'], 1, dict_texto['color'])
+        self.text = dict_texto['text']
         W = self.textSurf.get_width()
         H = self.textSurf.get_height()
         self.image.blit(self.textSurf, (dict_surface['tamanho'][0]/2 - W/2, dict_surface['tamanho'][1]/2 - H/2))
