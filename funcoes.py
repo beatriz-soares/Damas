@@ -20,8 +20,13 @@ S_CASA_PRETA = "sprites/casa_preta.jpg"
 
 # TELAS
 inicio = 1
-jogo = 2
-fim = 3
+jogo_1x1 = 2
+jogo_1xPC = 3
+fim = 4
+
+# TEXTOS
+texto_1x1 = 'JOGAR 1x1'
+texto_1xPC = 'JOGAR 1xPC'
 
 # ENVIRONMENT
 screen_width = 520
@@ -66,6 +71,7 @@ class Texto(pygame.sprite.Sprite):
 
         self.font = pygame.font.SysFont("Arial", dict_texto['size'])
         self.textSurf = self.font.render(dict_texto['text'], 1, dict_texto['color'])
+        self.text = dict_texto['text']
         W = self.textSurf.get_width()
         H = self.textSurf.get_height()
         self.image.blit(self.textSurf, (dict_surface['tamanho'][0]/2 - W/2, dict_surface['tamanho'][1]/2 - H/2))
@@ -172,10 +178,10 @@ def gerar_coisas_do_inicio():
     meio_vertical = (screen_height/2 - tam_botao[1]/2)/2
 
     humano_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(meio_horizontal, meio_vertical)}
-    humano_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':'JOGAR 1x1'}
+    humano_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_1x1}
 
     maquina_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(meio_horizontal, meio_vertical + tam_botao[1]*1.5)}
-    maquina_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':'JOGAR 1xPC'}
+    maquina_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_1xPC}
 
     botao_humano = Texto(humano_surface, humano_texto)
     botao_maquina = Texto(maquina_surface, maquina_texto)
