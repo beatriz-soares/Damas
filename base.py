@@ -4,6 +4,7 @@ import random
 from funcoes import *
 from itertools import cycle
 from random import choice as escolha_aleatoria
+from time import sleep as esperar
 
 pygame.init()
 
@@ -66,6 +67,9 @@ while not done:
 
             if pedra_pc.sprite == S_PEDRA_ROSA:
                 if len(movimentos_possiveis(pedra_pc)[0]) > 0:
+                    esperar(1)
+                    # SELEÇÃO
+                    movimentos = movimentos_possiveis(pedra_pc)
                     # MOVIMENTO DE PEÇA
                     # PRÉ-MOVIMENTO
                     casa_atual = pedra_pc.casa
@@ -91,7 +95,7 @@ while not done:
                                 done = True
                             print "comeu"
                     except Exception as e:
-                        pass
+                        print 1,e
 
                     # PÓS-MOVIMENTO
                     turno = vez.next()
@@ -116,7 +120,7 @@ while not done:
                         casa_clique = [s for s in lista_casas if s.rect.collidepoint(pos)][0]
                     except Exception as e:
                         casa_clique = None
-                        pass
+                        print 2,e
 
                     if casa_clique:
                         # CLIQUE NO TABULEIRO
@@ -163,7 +167,7 @@ while not done:
                                                     done = True
                                                 print "comeu"
                                         except Exception as e:
-                                            pass
+                                            print 3,e
 
                                         # PÓS-MOVIMENTO
                                         turno = vez.next()
@@ -177,7 +181,7 @@ while not done:
                                 map(pintar_neutralidade, casas_possiveis)
                                 casas_pintadas = []
                             except Exception as e:
-                                pass
+                                print 4,e
             # FIM VEZ DO JOGADOR
 
         lista_casas.draw(screen)
@@ -202,7 +206,7 @@ while not done:
                     casa_clique = [s for s in lista_casas if s.rect.collidepoint(pos)][0]
                 except Exception as e:
                     casa_clique = None
-                    pass
+                    print 5,e
 
                 if casa_clique:
                     # CLIQUE NO TABULEIRO
@@ -249,7 +253,8 @@ while not done:
                                                 done = True
                                             print "comeu"
                                     except Exception as e:
-                                        pass
+                                        print movimentos
+                                        print 6,e
 
                                     # PÓS-MOVIMENTO
                                     turno = vez.next()
@@ -270,6 +275,6 @@ while not done:
 
 
     pygame.display.flip()
-    clock.tick(5)
+    clock.tick(30)
 
 pygame.quit()
