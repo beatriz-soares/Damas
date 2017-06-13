@@ -98,7 +98,7 @@ class Casa(Cor):
         self.id = None
 
     def __repr__(self):
-        return '#%d @%d,%d' % (self.id, self.pos[0], self.pos[1])
+        return '_%d,%d' % (self.pos[0]+1, self.pos[1]+1)
 
 class Pedra(Botao):
     def __init__(self, pos, sprite):
@@ -116,7 +116,8 @@ class Pedra(Botao):
         else:
             self.direcoes = ((-1,-1),(-1,1))
 
-
+    def __repr__(self):
+        return '@%d,%d' % (self.pos[0]+1, self.pos[1]+1)
 
 
 """FUNÇÕES"""
@@ -216,7 +217,7 @@ def movimentos_possiveis(pedra):
 
     for direcao in pedra.direcoes:
         x, y = pedra.pos[0] + direcao[0], pedra.pos[1] + direcao[1]
-        if x*y >= 0:
+        if 0 <= x <= 7 and 0 <= y <= 7:
             try:
                 casa = tabuleiro[x][y]
                 if not casa.pedra:
@@ -228,7 +229,7 @@ def movimentos_possiveis(pedra):
         comida_x, comida_y = pedra.pos[0] + possibilidade[0][0], pedra.pos[1] + possibilidade[0][1]
         destino_x, destino_y = pedra.pos[0] + possibilidade[1][0], pedra.pos[1] + possibilidade[1][1]
 
-        if destino_x*destino_y >= 0:
+        if 0 <= destino_x <= 7 and 0 <= destino_y <= 7:
             try:
                 casa_comida = tabuleiro[comida_x][comida_y]
                 casa_destino = tabuleiro[destino_x][destino_y]

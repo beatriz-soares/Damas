@@ -76,11 +76,13 @@ while not done:
                     casa_atual.pedra = None
 
                     # MOVIMENTO
-                    casa_clique = escolha_aleatoria(movimentos_possiveis(pedra_pc)[0])
+                    casa_clique = escolha_aleatoria(movimentos[0])
                     casa_clique.pedra = pedra_pc
                     pedra_pc.casa = casa_clique
                     pedra_pc.rect = casa_clique.rect
                     pedra_pc.pos = casa_clique.pos
+
+                    print '                            ',casa_atual,' > ', pedra_pc, ' < ', casa_clique
 
                     try:
                         if movimentos[1][0]:
