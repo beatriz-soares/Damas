@@ -27,6 +27,7 @@ fim = 4
 # TEXTOS
 texto_1x1 = 'JOGAR 1x1'
 texto_1xPC = 'JOGAR 1xPC'
+texto_sair = 'SAIR'
 
 # ENVIRONMENT
 screen_width = 520
@@ -186,11 +187,17 @@ def gerar_coisas_do_inicio():
     maquina_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(meio_horizontal, meio_vertical + tam_botao[1]*1.5)}
     maquina_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_1xPC}
 
+    sair_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(meio_horizontal, meio_vertical + tam_botao[1]*3)}
+    sair_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_sair}
+
+
     botao_humano = Texto(humano_surface, humano_texto)
     botao_maquina = Texto(maquina_surface, maquina_texto)
+    botao_sair = Texto (sair_surface, sair_texto)
 
     lista_coisas.add(botao_humano)
     lista_coisas.add(botao_maquina)
+    lista_coisas.add(botao_sair)
 
     return lista_coisas
 

@@ -42,16 +42,20 @@ while not done:
             if event.type == pygame.QUIT:
                 done = True
             elif event.type == pygame.MOUSEBUTTONUP:
-                botao_1x1, botao_1xPC = lista_inicio.sprites()
                 mouse = pygame.mouse.get_pos()
 
-                if botao_1x1.rect.collidepoint(mouse):
-                    label = myfont.render("Comecou 1x1", 1, VERMELHO)
-                    tela = jogo_1x1
+                botoes_clicados = [s for s in lista_inicio if s.rect.collidepoint(pos)]
+                for botao in botoes_clicados:
+                    if botao.text == texto_1x1:
+                        label = myfont.render("Comecou 1x1", 1, VERMELHO)
+                        tela = jogo_1x1
 
-                if botao_1xPC.rect.collidepoint(mouse):
-                    label = myfont.render("Comecou 1xPC", 1, VERMELHO)
-                    tela = jogo_1xPC
+                    if botao.text == texto_1xPC:
+                        label = myfont.render("Comecou 1xPC", 1, VERMELHO)
+                        tela = jogo_1xPC
+
+                    if botao.text == texto_sair:
+                        done = True
 
         lista_inicio.draw(screen)
 
