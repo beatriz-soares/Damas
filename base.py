@@ -44,7 +44,7 @@ while not done:
             elif event.type == pygame.MOUSEBUTTONUP:
                 mouse = pygame.mouse.get_pos()
 
-                botoes_clicados = [s for s in lista_inicio if s.rect.collidepoint(pos)]
+                botoes_clicados = [s for s in lista_inicio if s.rect.collidepoint(mouse)]
                 for botao in botoes_clicados:
                     if botao.text == texto_1x1:
                         label = myfont.render("Comecou 1x1", 1, VERMELHO)
