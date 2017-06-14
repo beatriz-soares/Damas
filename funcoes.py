@@ -28,10 +28,11 @@ fim = 4
 texto_1x1 = 'JOGAR 1x1'
 texto_1xPC = 'JOGAR 1xPC'
 texto_sair = 'SAIR'
+texto_novamente = 'JOGAR NOVAMENTE'
 
 # ENVIRONMENT
 screen_width = 520
-screen_height = 580
+screen_height = 575
 
 posx_tabuleiro = 20
 posy_tabuleiro = 20
@@ -205,14 +206,20 @@ def gerar_coisas_do_inicio():
 def gerar_botoes_em_jogo():
     lista_coisas = pygame.sprite.Group()
 
-    tam_botao = [250,50]
+    tam_botao = [235,50]
 
     sair_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(posx_tabuleiro, screen_height - 65)}
     sair_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_sair}
 
+    novamente_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(posx_tabuleiro + tam_botao[0]+10, screen_height - 65)}
+    novamente_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_novamente}
+
     botao_sair = Texto (sair_surface, sair_texto)
 
+    botao_novamente = Texto (novamente_surface, novamente_texto)
+
     lista_coisas.add(botao_sair)
+    lista_coisas.add(botao_novamente)
 
     return lista_coisas
 
