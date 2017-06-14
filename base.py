@@ -99,7 +99,6 @@ while not done:
                                 qtd[pedra_comida.sprite]-=1
                             if qtd[pedra_comida.sprite] == 0:
                                 label = myfont.render("Vencedor: %s"%pedra_comida.sprite, 1, (255,0,0))
-                                done = True
                             print "comeu"
                     except Exception as e:
                         print 1,e
@@ -122,6 +121,14 @@ while not done:
                     pos = pygame.mouse.get_pos()
 
                     pedras_clicadas = [s for s in lista_pedras if s.rect.collidepoint(pos)]
+                    botoes_clicados = [s for s in lista_botoes_em_jogo if s.rect.collidepoint(pos)]
+
+                    for botao in botoes_clicados:
+                        if botao.text == texto_sair:
+                            done = True
+
+                        if botao.text == texto_novamente:
+                            pass
 
                     try:
                         casa_clique = [s for s in lista_casas if s.rect.collidepoint(pos)][0]
@@ -171,7 +178,6 @@ while not done:
                                                     qtd[pedra_comida.sprite]-=1
                                                 if qtd[pedra_comida.sprite] == 0:
                                                     label = myfont.render("Vencedor: %s"%pedra_comida.sprite, 1, (255,0,0))
-                                                    done = True
                                                 print "comeu"
                                         except Exception as e:
                                             print 3,e
@@ -209,6 +215,14 @@ while not done:
                 pos = pygame.mouse.get_pos()
 
                 pedras_clicadas = [s for s in lista_pedras if s.rect.collidepoint(pos)]
+                botoes_clicados = [s for s in lista_botoes_em_jogo if s.rect.collidepoint(pos)]
+
+                for botao in botoes_clicados:
+                    if botao.text == texto_sair:
+                        done = True
+
+                    if botao.text == texto_novamente:
+                        pass
 
                 try:
                     casa_clique = [s for s in lista_casas if s.rect.collidepoint(pos)][0]
@@ -258,7 +272,7 @@ while not done:
                                                 qtd[pedra_comida.sprite]-=1
                                             if qtd[pedra_comida.sprite] == 0:
                                                 label = myfont.render("Vencedor: %s"%pedra_comida.sprite, 1, (255,0,0))
-                                                done = True
+
                                             print "comeu"
                                     except Exception as e:
                                         print movimentos
