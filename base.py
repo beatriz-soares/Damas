@@ -14,6 +14,7 @@ clock = pygame.time.Clock()
 lista_casas = gerar_casas()
 lista_pedras = gerar_pedras(lista_casas)
 lista_inicio = gerar_coisas_do_inicio()
+lista_botoes_em_jogo = gerar_botoes_em_jogo()
 
 """VARIÁVEIS DE CONTROLE"""
 done = False
@@ -192,6 +193,7 @@ while not done:
 
         lista_casas.draw(screen)
         lista_pedras.draw(screen)
+        lista_botoes_em_jogo.draw(screen)
         screen.blit(label, (0, 0))
 
         # FIM EVENTOS DA TELA DE PARTIDA 1xPC
@@ -275,6 +277,7 @@ while not done:
 
         lista_casas.draw(screen)
         lista_pedras.draw(screen)
+        lista_botoes_em_jogo.draw(screen)
         screen.blit(label, (0, 0))
 
         # FIM EVENTOS DA TELA DE PARTIDA 1x1

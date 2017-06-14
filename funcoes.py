@@ -31,7 +31,7 @@ texto_sair = 'SAIR'
 
 # ENVIRONMENT
 screen_width = 520
-screen_height = 520
+screen_height = 580
 
 posx_tabuleiro = 20
 posy_tabuleiro = 20
@@ -200,6 +200,22 @@ def gerar_coisas_do_inicio():
     lista_coisas.add(botao_sair)
 
     return lista_coisas
+
+
+def gerar_botoes_em_jogo():
+    lista_coisas = pygame.sprite.Group()
+
+    tam_botao = [250,50]
+
+    sair_surface = {'cor':BEGE, 'tamanho':tam_botao, 'pos':(posx_tabuleiro, screen_height - 65)}
+    sair_texto = {'size':15, 'color':VERMELHO_ESCURO, 'text':texto_sair}
+
+    botao_sair = Texto (sair_surface, sair_texto)
+
+    lista_coisas.add(botao_sair)
+
+    return lista_coisas
+
 
 def pos_tabuleiro(i,j):
     # CONVERTE COORDENADAS CARTESIANAS EM COORDENADAS DE PIXELS
